@@ -1,5 +1,6 @@
 package com.example.everyteam.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
@@ -36,4 +37,12 @@ public class Post extends BaseTime{
     @Column(nullable = false)
     private String category;
 
+    @Builder
+    public Post(User user, Team team, String title, String content, String category) {
+        this.user = user;
+        this.team = team;
+        this.title = title;
+        this.content = content;
+        this.category = category;
+    }
 }

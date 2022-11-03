@@ -2,6 +2,7 @@
 //
 //
 //import com.example.everyteam.config.JwtService;
+//import com.example.everyteam.domain.Team;
 //import com.example.everyteam.domain.User;
 //import com.example.everyteam.dto.JsonResponse;
 //import com.example.everyteam.dto.PostRequest;
@@ -31,10 +32,11 @@
 //
 //    //TODO : 게시글 생성, 카테고리 별로 구분
 //    @PostMapping("/post")
-//    public ResponseEntity<JsonResponse> createPost(HttpServletRequest request, @RequestBody PostRequest.createTeam req){
+//    public ResponseEntity<JsonResponse> createPost(HttpServletRequest request, @RequestBody PostRequest.createPost req){
 //        String userId = jwtService.resolveToken(request);
 //        User user = userService.getUser(userId);
-//        String postIdx = postService.createPost(user, req);
+//        Team team = teamService.getTeam(req.getTeamCode());
+//        Long postIdx = postService.createPost(user, team, req);
 //
 //        return ResponseEntity.ok(new JsonResponse(true, 200, "createTeam", postIdx));
 //    }
