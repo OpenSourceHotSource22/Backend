@@ -12,4 +12,14 @@ public class UserResponse {
         private String id;
         private String token;
     }
+
+    @NoArgsConstructor
+    @Data
+    public static class getUser {
+        private String id;
+
+        public getUser(String id) {
+            this.id = id;
+        }
+    }
 }

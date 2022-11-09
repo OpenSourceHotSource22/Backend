@@ -5,13 +5,17 @@ import com.example.everyteam.domain.Belong;
 import com.example.everyteam.domain.Team;
 import com.example.everyteam.domain.User;
 import com.example.everyteam.dto.TeamRequest;
+import com.example.everyteam.dto.TeamResponse;
+import com.example.everyteam.dto.UserResponse;
 import com.example.everyteam.repository.BelongRepository;
 import com.example.everyteam.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
+
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -37,30 +41,19 @@ public class TeamService {
         return team.getCode();
     }
 
-    public List<Belong> getUserTeamList(User user) {
+    public TeamResponse.getUserTeamList getUserTeamList(User user) {
         List<Belong> belongs= belongRepository.findAllByUserIdx(user.getUserIdx());
-        return belongs;
+        List<Team> teamList = new ArrayList<>();
+        for(Belong b : belongs){
+            teamList.add(b.getTeam());
+        }
+        UserResponse.getUser getUser = new UserResponse.getUser(user.getId());
+        return new TeamResponse.getUserTeamList(getUser, teamList);
+
     }
 
-    public String randomCode(){
-        StringBuffer key = new StringBuffer();
-        Random rnd = new Random();
-
-        for (int i = 0; i < 6; i++) {
-            int index = rnd.nextInt(3);
-            switch (index) {
-                case 0:
-                    key.append(((int) (rnd.nextInt(26)) + 97));
-                    break;
-                case 1:
-                    key.append(((int) (rnd.nextInt(26)) + 65));
-                    break;
-                case 2:
-                    key.append((rnd.nextInt(10)));
-                    break;
-            }
-        }
-        return key.toString();
+    private String randomCode(){
+        return RandomStringUtils.random(6,33,125,true,false);
     }
 
 
@@ -69,8 +62,10 @@ public class TeamService {
         return team;
     }
 
-    //team에 속한 userList
+//
+////    team에 속한 userList
 //    public List<String> getUserList(String teamCode) {
-//        List<String> userList = teamRepository.findUserByCode(teamCode);
+//        List<String> userList = teamRepository.findAllByCode(teamCode);
+//        return userList
 //    }
 }

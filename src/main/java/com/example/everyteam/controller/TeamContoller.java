@@ -2,9 +2,13 @@ package com.example.everyteam.controller;
 
 import com.example.everyteam.config.JwtService;
 import com.example.everyteam.domain.Belong;
+import com.example.everyteam.domain.Post;
+import com.example.everyteam.domain.Team;
 import com.example.everyteam.domain.User;
 import com.example.everyteam.dto.JsonResponse;
 import com.example.everyteam.dto.TeamRequest;
+import com.example.everyteam.dto.TeamResponse;
+import com.example.everyteam.service.PostService;
 import com.example.everyteam.service.TeamService;
 import com.example.everyteam.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +27,7 @@ public class TeamContoller {
     private final JwtService jwtService;
     private final TeamService teamService;
     private final UserService userService;
-//    private final PostService postService;
+    private final PostService postService;
 
     @PostMapping("/team")
     public ResponseEntity<JsonResponse> createTeam(HttpServletRequest request, @RequestBody TeamRequest.createTeam req){
@@ -48,10 +52,10 @@ public class TeamContoller {
     public ResponseEntity<JsonResponse> getUserTeamList(HttpServletRequest request){
         String userId = jwtService.resolveToken(request);
         User user = userService.getUser(userId);
-        List<Belong> teamList = teamService.getUserTeamList(user);
+        TeamResponse.getUserTeamList response = teamService.getUserTeamList(user);
 
 
-        return ResponseEntity.ok(new JsonResponse(true, 200, "joinTeam", teamList));
+        return ResponseEntity.ok(new JsonResponse(true, 200, "joinTeam", response));
     }
 
 
@@ -61,9 +65,10 @@ public class TeamContoller {
 //    public ResponseEntity<JsonResponse> getTeamPostList(HttpServletRequest request, @PathVariable String teamCode){
 //        String userId = jwtService.resolveToken(request);
 //        User user = userService.getUser(userId);
-//        List<Post> postList = postService.getTeamPostList(teamCode);
+//
 //        Team team = teamService.getTeam(teamCode);
-//        List<String> teamUserList = teamService.getUserList(teamCode);
+//        List<Post> postList = postService.getPostList(team);
+//        List<String> teamUserList = teamService.getUserList(team);
 //
 //
 //        return ResponseEntity.ok(
