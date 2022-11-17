@@ -24,9 +24,24 @@ public class Team {
     @Column(nullable = false)
     private String code;
 
+    @Column(nullable = true)
+    private String imgUrl;
+
+    @Column(nullable = false)
+    private String description;
+
+    @Column(nullable = true)
+    private String topImgUrl;
+
     @Builder
-    public Team(String name, String code) {
+    public Team(String name, String code, String imgUrl, String description) {
         this.name = name;
         this.code = code;
+        this.imgUrl = imgUrl;
+        this.description = description;
+    }
+
+    public void setTopImgUrl(String topImgUrl) {
+        this.topImgUrl = topImgUrl;
     }
 }

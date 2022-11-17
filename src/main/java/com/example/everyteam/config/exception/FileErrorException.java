@@ -1,13 +1,12 @@
 package com.example.everyteam.config.exception;
 
-public class NotFoundException extends RuntimeException{
+public class FileErrorException extends RuntimeException{
     private ErrorResponseStatus status;
 
-    public NotFoundException(ErrorResponseStatus status) {
+    public FileErrorException(ErrorResponseStatus status) {
         this.status = status;
     }
     public ErrorResponseStatus getStatus() {
         return this.status;
     }
-
 }

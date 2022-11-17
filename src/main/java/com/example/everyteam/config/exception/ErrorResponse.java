@@ -1,5 +1,8 @@
 package com.example.everyteam.config.exception;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -11,6 +14,12 @@ import java.time.format.DateTimeFormatter;
 public class ErrorResponse {
     private final String timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     private final boolean isSuccess;
-    private final int status;
+    private final int code;
     private final String message;
+
+    public ErrorResponse(ErrorResponseStatus status) {
+        this.isSuccess = status.isSuccess();
+        this.code = status.getCode();
+        this.message = status.getMessage();
+    }
 }

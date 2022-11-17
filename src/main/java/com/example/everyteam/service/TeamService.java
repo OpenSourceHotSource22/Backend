@@ -1,6 +1,7 @@
 package com.example.everyteam.service;
 
 import com.example.everyteam.config.exception.BadRequestException;
+import com.example.everyteam.config.exception.ErrorResponseStatus;
 import com.example.everyteam.domain.Belong;
 import com.example.everyteam.domain.Team;
 import com.example.everyteam.domain.User;
@@ -12,30 +13,47 @@ import com.example.everyteam.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.everyteam.config.exception.ErrorResponseStatus.*;
 
 @Service
 @RequiredArgsConstructor
 public class TeamService {
     private final TeamRepository teamRepository;
     private final BelongRepository belongRepository;
+    private final ImageService imageService;
 
 
-    public String createTeam(User user, TeamRequest.createTeam req) {
-        Team team = Team.builder().code(randomCode()).name(req.getName()).build();
+    @Transactional
+    public String createTeam(User user, TeamRequest.createTeam req, MultipartFile file) {
+
+        String newCode = randomCode();
+
+        String imgUrl = null;
+
+        if(file.getSize()>0){
+            imgUrl = imageService.uploadToStorage("team","everyTeam_"+newCode,file);
+        }
+
+        Team team = Team.builder().code(newCode).name(req.getName()).description(req.getDescription()).imgUrl(imgUrl).build();
         teamRepository.save(team);
+
         Belong belong = Belong.builder().user(user).team(team).build();
         belongRepository.save(belong);
+
         return team.getCode();
     }
 
     public String joinTeam(User user, String teamCode) {
-        Team team = teamRepository.findByCode(teamCode).orElseThrow(()->new BadRequestException("code를 다시 입력하세요"));
+        Team team = teamRepository.findByCode(teamCode).orElseThrow(()->new BadRequestException(TEAM_CODE_ERROR));
         if(belongRepository.countTeamCodeByUser(user.getUserIdx(), team.getTeamIdx())>0)
-            throw new BadRequestException("이미 team에 등록된 유저입니다.");
+            throw new BadRequestException(EXIST_USER_IN_TEAM);
         Belong belong = Belong.builder().user(user).team(team).build();
         belongRepository.save(belong);
         return team.getCode();
@@ -58,14 +76,32 @@ public class TeamService {
 
 
     public Team getTeam(String teamCode) {
-        Team team = teamRepository.findByCode(teamCode).orElseThrow(()->new BadRequestException("잘못된 Team Code입니다."));
+        Team team = teamRepository.findByCode(teamCode).orElseThrow(()->new BadRequestException(TEAM_CODE_ERROR));
         return team;
     }
 
-//
-////    team에 속한 userList
-//    public List<String> getUserList(String teamCode) {
-//        List<String> userList = teamRepository.findAllByCode(teamCode);
-//        return userList
-//    }
+
+
+//    team에 속한 userList
+    public List<String> getUserList(String teamCode) {
+        List<String> userList = belongRepository.findUserByTeam(teamCode);
+        return userList;
+    }
+
+    public void UserOnTeam(String teamCode, String userId) {
+        List<String> userList = belongRepository.findUserByTeam(teamCode);
+        if(userList.contains(userId)){
+            System.out.println("true");
+        }else{
+            System.out.println("false");
+            throw new BadRequestException(NOT_FOUND_USER_IN_TEAM);
+        }
+    }
+
+    public void updateTopImage(Team team, MultipartFile file) {
+        String imgUrl=null;
+        if(file.getSize()>0)
+            imgUrl = imageService.uploadToStorage("team","everyTeam_topImg_"+team.getCode(),file);
+        else throw new BadRequestException(FILE_SAVE_ERROR);
+    }
 }

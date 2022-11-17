@@ -11,5 +11,6 @@ import java.util.Optional;
 public interface TeamRepository extends JpaRepository<Team, Long> {
     Optional<Team> findByCode(String teamCode);
 
-    List<String> findAllByCode(String teamCode);
+//    List<String> findAllByCode(String teamCode);
+
 }

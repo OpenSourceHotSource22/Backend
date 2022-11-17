@@ -10,5 +10,6 @@ public class TeamRequest {
     @Data
     public static class createTeam {
         private String name;
+        private String description;
     }
 }

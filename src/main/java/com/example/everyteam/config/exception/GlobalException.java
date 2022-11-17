@@ -1,7 +1,12 @@
 package com.example.everyteam.config.exception;
 
 public class GlobalException extends RuntimeException{
-    public GlobalException(String s){
-        super(s);
+    private ErrorResponseStatus status;
+
+    public GlobalException(ErrorResponseStatus status) {
+        this.status = status;
+    }
+    public ErrorResponseStatus getStatus() {
+        return this.status;
     }
 }

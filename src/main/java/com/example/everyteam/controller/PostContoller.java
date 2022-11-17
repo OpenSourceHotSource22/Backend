@@ -32,8 +32,8 @@ public class PostContoller {
 
     //TODO : 게시글 생성, 카테고리 별로 구분
     @PostMapping("/post")
-    public ResponseEntity<JsonResponse> createPost(HttpServletRequest request, @RequestBody PostRequest.createPost req){
-        String userId = jwtService.resolveToken(request);
+    public ResponseEntity<JsonResponse> createPost(@RequestBody PostRequest.createPost req){
+        String userId = jwtService.resolveToken();
         User user = userService.getUser(userId);
         Team team = teamService.getTeam(req.getTeamCode());
         postService.createPost(user, team, req);

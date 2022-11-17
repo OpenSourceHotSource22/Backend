@@ -1,7 +1,12 @@
 package com.example.everyteam.config.exception;
 
 public class MethodNotAllowedException extends RuntimeException{
-    public MethodNotAllowedException(String s){
-        super(s);
+    private ErrorResponseStatus status;
+
+    public MethodNotAllowedException(ErrorResponseStatus status) {
+        this.status = status;
+    }
+    public ErrorResponseStatus getStatus() {
+        return this.status;
     }
 }

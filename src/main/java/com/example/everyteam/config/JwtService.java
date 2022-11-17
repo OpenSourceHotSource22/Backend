@@ -1,14 +1,23 @@
 package com.example.everyteam.config;
 
+import com.example.everyteam.config.exception.BadRequestException;
+import com.example.everyteam.config.exception.ErrorResponseStatus;
+import com.example.everyteam.domain.User;
+import com.example.everyteam.repository.UserRepository;
+import com.example.everyteam.service.UserService;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
+
+import static com.example.everyteam.config.exception.ErrorResponseStatus.FAILED_TO_LOGIN_JWT;
 
 
 //ACTOKEN과 별개로 REFTOKEN은 DB에서 꺼내와 검증해야하기 떄문에
@@ -17,7 +26,8 @@ import java.util.Date;
 @RequiredArgsConstructor
 @Slf4j
 public class JwtService {
-    private String secretKey= JwtProperties.SECRET;
+    private String secretKey= Secret.SECRET;
+    private final UserRepository userRepository;
 
 
     //객체 초기화, secretKey를 Base64로 인코딩한다.
@@ -41,10 +51,19 @@ public class JwtService {
         }
     }
     //header에서 ACTOKEN추출
-    public String resolveToken(HttpServletRequest request){
-        String token = request.getHeader(JwtProperties.ACCESS_HEADER_STRING);
-        String userCode = getUserPk(token);
-        return userCode;
+    public String resolveToken(){
+        String token = getJwt();
+        validateToken(token);
+        String userId = getUserPk(token);
+        userRepository.findByUserId(userId).orElseThrow(()->new BadRequestException(FAILED_TO_LOGIN_JWT));
+
+        return userId;
+    }
+
+    public String getJwt() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        return request.getHeader("X-AUTH-TOKEN");
+        /* return request.getHeader("AUTHORIZATION_HEADER");*/
     }
 
     public String createToken(String userUUID){
@@ -55,7 +74,7 @@ public class JwtService {
         String acToken = Jwts.builder()
                 .setClaims(claims) // 정보 저장
                 .setIssuedAt(now) // 토큰 발행 시간 정보
-                .setExpiration(new Date(now.getTime() + JwtProperties.EXPIRATION_TIME)) // set Expire Time
+                .setExpiration(new Date(now.getTime() + Secret.AC_EXPIRATION_TIME)) // set Expire Time
                 .signWith(SignatureAlgorithm.HS256, secretKey)  // 사용할 암호화 알고리즘과
                 // signature 에 들어갈 secret값 세팅
                 .compact();
@@ -67,7 +86,7 @@ public class JwtService {
 
 
     //토큰의 유효성 + 만료 일자 확인
-    public boolean validateRefToken(String jwtToken){
+    public boolean validateToken(String jwtToken){
         try{
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
             return !claims.getBody().getExpiration().before(new Date());

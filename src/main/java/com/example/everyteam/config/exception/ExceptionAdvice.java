@@ -8,53 +8,54 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.persistence.EntityNotFoundException;
 
+import static com.example.everyteam.config.exception.ErrorResponseStatus.DATABASE_ERROR;
+
 //Controller Exception 관리
 @Slf4j
 @RestControllerAdvice
 public class ExceptionAdvice {
+    //example
+    @ExceptionHandler(TestException.class)
+    public ResponseEntity<Object> EntityNotFoundException(TestException e){
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse(e.getStatus()));
+    }
 
     //400
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<Object> BadRequestException(BadRequestException e){
-        String msg = e.getMessage();
-        int status = 400;
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(false,status,msg));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(e.getStatus()));
     }
+
+    //400
+    @ExceptionHandler(FileErrorException.class)
+    public ResponseEntity<Object> FileErrorException(FileErrorException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(e.getStatus()));
+    }
+
 
     //403
     @ExceptionHandler(ForbiddenException.class)
     public ResponseEntity<Object> ForbiddenException(ForbiddenException e){
-//        String msg = "찾을 수 없음";
-        String msg = e.getMessage();
-        int status = 403;
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(false,status,msg));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(e.getStatus()));
     }
+
 
     //404
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Object> NotFoundException(NotFoundException e){
-//        String msg = "찾을 수 없음";
-        String msg = e.getMessage();
-        int status = 404;
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(false,status,msg));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(e.getStatus()));
     }
 
     //405
     @ExceptionHandler(MethodNotAllowedException.class)
     public ResponseEntity<Object> MethodNotAllowedException(MethodNotAllowedException e){
-//        String msg = "찾을 수 없음";
-        String msg = e.getMessage();
-        int status = 405;
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(false,status,msg));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(e.getStatus()));
     }
 
-
-    //501
+    //500
     @ExceptionHandler(GlobalException.class)
-    public ResponseEntity<Object> globalException(GlobalException e){
-        String msg = e.getMessage();
-        int status = 500;
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse(false,status,msg));
+    public ResponseEntity<Object> GlobalException(GlobalException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(e.getStatus()));
     }
 
 }

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class JsonResponse {
     //    private final boolean success;
+
     private boolean isSuccess;
     private int status;
     private String message;

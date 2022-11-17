@@ -1,7 +1,12 @@
 package com.example.everyteam.config.exception;
 
 public class BadRequestException extends RuntimeException{
-    public BadRequestException(String s){
-        super(s);
+    private ErrorResponseStatus status;
+
+    public BadRequestException(ErrorResponseStatus status) {
+        this.status = status;
+    }
+    public ErrorResponseStatus getStatus() {
+        return this.status;
     }
 }
