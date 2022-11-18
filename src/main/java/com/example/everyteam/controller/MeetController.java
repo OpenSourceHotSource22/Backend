@@ -56,7 +56,7 @@ public class MeetController {
     }
 
     @ApiImplicitParams({@ApiImplicitParam(name="X-AUTH-TOKEN",value = "HttpServletRequest", required = true, dataType = "string",paramType = "header")})
-    @GetMapping("/getDate")
+    @PostMapping("/getDate")
     public ResponseEntity<JsonResponse> getMeetDate(@RequestBody MeetRequest.getMeetDate req){
         String userId = jwtService.resolveToken();
         teamService.UserOnTeam(req.getTeamCode(), userId);
