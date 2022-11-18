@@ -44,18 +44,17 @@ public class MeetService {
 
 
     //TODO : 이미 시간을 등록한 유저의 경우 유저의 결과 보여주기, 새로 등록한 유저의 경우 null
-    public List<MeetResponse.getMeetDate> getMeetDate(String meetCode, String userId){
+    public List<Object> getMeetDate(String meetCode, String userId){
         validMeetCode(meetCode);
         List<Meet> dates = meetRepository.findMeetByCode(meetCode);
-        List<MeetResponse.getMeetDate> response = new ArrayList<>();
+        List<Object> response = new ArrayList<>();
         for(Meet meet : dates){
             try{
                 MeetTime time = meetTimeRepository.findByMeetandUser(meet.getDate(),userId);
-                response.add(new MeetResponse.getMeetDate(meet,time));
+                response.add(new MeetResponse.getMeetDateandTime(meet,time));
             }catch (NullPointerException e){
-                return null;
+                response.add(new MeetResponse.getMeetDate(meet));
             }
-
         }
         return response;
     }

@@ -61,7 +61,7 @@ public class MeetController {
         String userId = jwtService.resolveToken();
         teamService.UserOnTeam(req.getTeamCode(), userId);
 
-        List<MeetResponse.getMeetDate> dates = meetService.getMeetDate(req.getMeetCode(), userId);
+        List<Object> dates = meetService.getMeetDate(req.getMeetCode(), userId);
 
         MeetResponse.getMeetDateRes response = new MeetResponse.getMeetDateRes(userId,dates);
 
