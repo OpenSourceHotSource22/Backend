@@ -29,7 +29,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
         return new Docket(DocumentationType.SWAGGER_2)
                 .useDefaultResponseMessages(false)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.everyteam"))
+                .apis(RequestHandlerSelectors.basePackage("com.example.everyteam"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(metaData());
