@@ -10,8 +10,6 @@ import com.example.everyteam.dto.team.TeamResponse;
 import com.example.everyteam.service.PostService;
 import com.example.everyteam.service.TeamService;
 import com.example.everyteam.service.UserService;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +30,6 @@ public class TeamContoller {
     private final PostService postService;
 
 
-    @ApiImplicitParams({@ApiImplicitParam(name="X-AUTH-TOKEN",value = "HttpServletRequest", required = true, dataType = "string",paramType = "header")})
     @PostMapping("/team/create")
     public ResponseEntity<JsonResponse> createTeam(@RequestPart("team") TeamRequest.createTeam req, @RequestPart("image")MultipartFile file){
         String userId = jwtService.resolveToken();
@@ -43,7 +40,6 @@ public class TeamContoller {
         return ResponseEntity.ok(new JsonResponse(true, 200, "createTeam", teamCode));
     }
 
-    @ApiImplicitParams({@ApiImplicitParam(name="X-AUTH-TOKEN",value = "HttpServletRequest", required = true, dataType = "string",paramType = "header")})
     @PutMapping("/team/updateTopImage")
     public ResponseEntity<JsonResponse> updateTopImage(@RequestPart("team") TeamRequest.updateTeam req,@RequestPart("image")MultipartFile file){
         String userId = jwtService.resolveToken();
@@ -55,7 +51,6 @@ public class TeamContoller {
         return ResponseEntity.ok(new JsonResponse(true, 200, "updateTopImage", team.getCode()));
     }
 
-    @ApiImplicitParams({@ApiImplicitParam(name="X-AUTH-TOKEN",value = "HttpServletRequest", required = true, dataType = "string",paramType = "header")})
     @PostMapping("/team/join")
     public ResponseEntity<JsonResponse> joinTeam(@RequestBody TeamRequest.join req){
         String userId = jwtService.resolveToken();
@@ -71,7 +66,6 @@ public class TeamContoller {
     //userList, team info, postList
     //TODO : 생성일 mapping 다르게 하기
     //meet, role response 다르게 보내기
-    @ApiImplicitParams({@ApiImplicitParam(name="X-AUTH-TOKEN",value = "HttpServletRequest", required = true, dataType = "string",paramType = "header")})
     @GetMapping("/team/date")
     public ResponseEntity<JsonResponse> getTeamPostByDate(@RequestParam String teamCode){
         //user validation
@@ -93,7 +87,6 @@ public class TeamContoller {
     }
 
 
-    @ApiImplicitParams({@ApiImplicitParam(name="X-AUTH-TOKEN",value = "HttpServletRequest", required = true, dataType = "string",paramType = "header")})
     @GetMapping("/team/category")
     public ResponseEntity<JsonResponse> getTeamPostByCategory(@RequestParam String teamCode){
         //user validation

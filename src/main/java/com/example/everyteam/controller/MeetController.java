@@ -1,18 +1,17 @@
 package com.example.everyteam.controller;
 
 import com.example.everyteam.config.JwtService;
-import com.example.everyteam.domain.*;
+import com.example.everyteam.domain.Post;
+import com.example.everyteam.domain.Team;
+import com.example.everyteam.domain.User;
 import com.example.everyteam.dto.JsonResponse;
 import com.example.everyteam.dto.meet.MeetRequest;
 import com.example.everyteam.dto.meet.MeetResponse;
 import com.example.everyteam.dto.post.PostRequest;
-import com.example.everyteam.repository.MeetRepository;
 import com.example.everyteam.service.MeetService;
 import com.example.everyteam.service.PostService;
 import com.example.everyteam.service.TeamService;
 import com.example.everyteam.service.UserService;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +31,6 @@ public class MeetController {
     private final MeetService meetService;
 
     //처음 유저가 select date
-    @ApiImplicitParams({@ApiImplicitParam(name="X-AUTH-TOKEN",value = "HttpServletRequest", required = true, dataType = "string",paramType = "header")})
     @PostMapping("/createDate")
     public ResponseEntity<JsonResponse> createDate(@RequestBody MeetRequest.createDate req){
         String userId = jwtService.resolveToken();
@@ -54,7 +52,6 @@ public class MeetController {
         return ResponseEntity.ok(new JsonResponse(true, 200, "createDate", new MeetResponse.createDate(team.getCode(), meetCode)));
     }
 
-    @ApiImplicitParams({@ApiImplicitParam(name="X-AUTH-TOKEN",value = "HttpServletRequest", required = true, dataType = "string",paramType = "header")})
     @PostMapping("/getDate")
     public ResponseEntity<JsonResponse> getMeetDate(@RequestBody MeetRequest.getMeetDate req){
         String userId = jwtService.resolveToken();
@@ -67,7 +64,6 @@ public class MeetController {
         return ResponseEntity.ok(new JsonResponse(true, 200, "getMeetDate", response));
     }
 
-    @ApiImplicitParams({@ApiImplicitParam(name="X-AUTH-TOKEN",value = "HttpServletRequest", required = true, dataType = "string",paramType = "header")})
     @PutMapping ("/updateTime")
     public ResponseEntity<JsonResponse> updateTime(@RequestBody MeetRequest.updateTime req){
         String userId = jwtService.resolveToken();
@@ -80,7 +76,6 @@ public class MeetController {
 
     }
 
-    @ApiImplicitParams({@ApiImplicitParam(name="X-AUTH-TOKEN",value = "HttpServletRequest", required = true, dataType = "string",paramType = "header")})
     @GetMapping ("/getResultTime")
     public ResponseEntity<JsonResponse> getResultTime(@RequestBody MeetRequest.updateTime req){
         String userId = jwtService.resolveToken();
