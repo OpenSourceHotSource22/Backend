@@ -105,4 +105,10 @@ public class TeamService {
             imgUrl = imageService.uploadToStorage("team","everyTeam_topImg_"+team.getCode(),file);
         else throw new BadRequestException(FILE_SAVE_ERROR);
     }
+
+
+    ///////TODO : test Team List
+    public List<Team> getTeamList() {
+        return teamRepository.findAll();
+    }
 }

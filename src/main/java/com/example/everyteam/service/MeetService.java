@@ -102,4 +102,11 @@ public class MeetService {
     }
 
 
+    public List<Meet> getAllMeetList() {
+        return meetRepository.findAll();
+    }
+
+    public List<MeetTime> getAllMeetTimeList() {
+        return meetTimeRepository.findAll();
+    }
 }

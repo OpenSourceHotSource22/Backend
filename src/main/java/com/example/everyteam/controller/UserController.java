@@ -8,11 +8,14 @@ import com.example.everyteam.dto.user.UserRequest;
 import com.example.everyteam.dto.user.UserResponse;
 import com.example.everyteam.service.TeamService;
 import com.example.everyteam.service.UserService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "http://localhost:8080") // 추가
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -45,6 +48,7 @@ public class UserController {
     //TODO : 유저가 속한 Team의 리스트
     //team의 countUser
     //team의 description, image
+    @ApiImplicitParams({@ApiImplicitParam(name="X-AUTH-TOKEN",value = "HttpServletRequest", required = true, dataType = "string",paramType = "header")})
     @GetMapping("/user/teamList")
     public ResponseEntity<JsonResponse> getUserTeamList(){
         String userId = jwtService.resolveToken();
@@ -53,4 +57,10 @@ public class UserController {
 
         return ResponseEntity.ok(new JsonResponse(true, 200, "joinTeam", response));
     }
+
+    @GetMapping("/test/getUserList")
+    public Object getUserList(){
+        return userService.getAllUserList();
+    }
+
 }

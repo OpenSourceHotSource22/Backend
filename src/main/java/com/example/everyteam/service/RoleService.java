@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class RoleService {
@@ -26,5 +28,9 @@ public class RoleService {
             Role role = Role.builder().user(reqUser).post(post).role(getRole).code(code).build();
             roleRepository.save(role);
         }
+    }
+
+    public List<Role> getAllRoleList() {
+        return roleRepository.findAll();
     }
 }

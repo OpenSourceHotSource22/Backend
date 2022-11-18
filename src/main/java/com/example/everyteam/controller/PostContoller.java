@@ -9,13 +9,14 @@ import com.example.everyteam.dto.post.PostRequest;
 import com.example.everyteam.service.PostService;
 import com.example.everyteam.service.TeamService;
 import com.example.everyteam.service.UserService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "http://localhost:8080") // 추가
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -27,6 +28,7 @@ public class PostContoller {
 
 
     //TODO : 게시글 생성, 카테고리 별로 구분
+    @ApiImplicitParams({@ApiImplicitParam(name="X-AUTH-TOKEN",value = "HttpServletRequest", required = true, dataType = "string",paramType = "header")})
     @PostMapping("/post")
     public ResponseEntity<JsonResponse> createPost(@RequestBody PostRequest.createPost req){
         String userId = jwtService.resolveToken();
@@ -52,6 +54,11 @@ public class PostContoller {
 
 
 
+
+    @GetMapping("/test/getPostList")
+    public Object getPostList(){
+        return postService.getAllPostList();
+    }
 
 
 }

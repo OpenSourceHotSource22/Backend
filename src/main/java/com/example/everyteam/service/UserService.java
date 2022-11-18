@@ -8,6 +8,8 @@ import com.example.everyteam.utils.SHA256;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static com.example.everyteam.config.exception.ErrorResponseStatus.*;
 
 @Service
@@ -34,5 +36,9 @@ public class UserService {
     public User getUser(String userId) {
         User user = userRepository.findByUserId(userId).orElseThrow(()->new BadRequestException(NOT_FOUND_USER));
         return user;
+    }
+
+    public List<User> getAllUserList() {
+        return userRepository.findAll();
     }
 }
