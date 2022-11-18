@@ -32,5 +32,9 @@ public class TestController {
         return null;
     }
 
+    @GetMapping("/test/cors")
+    public String testString(){
+        return "cors 주거써...";
+    }
 
 }
