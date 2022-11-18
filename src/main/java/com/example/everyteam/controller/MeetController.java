@@ -43,7 +43,7 @@ public class MeetController {
 
         //TODO : content에 meetCode url로 담을지?
         PostRequest.createPost newPost = PostRequest.createPost.builder()
-                .teamCode(req.getTeamCode()).title(req.getTitle()).content(meetCode).category("Meet").build();
+                .teamCode(req.getTeamCode()).title(req.getTitle()).content(meetCode).category("MEET").build();
         Post post = postService.createPost(user, team, newPost);
 
         meetService.createDate(post, req, meetCode);

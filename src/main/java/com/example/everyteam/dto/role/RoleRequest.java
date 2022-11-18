@@ -17,4 +17,12 @@ public class RoleRequest {
     public static class getUserList {
         private String teamCode;
     }
+
+    @Data
+    public static class createRoulette {
+        private String teamCode;
+        private String title;
+        private String userId;
+    }
+
 }

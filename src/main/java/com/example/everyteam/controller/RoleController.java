@@ -43,15 +43,34 @@ public class RoleController {
 
         String roleCode = teamService.randomCode();
 
-        //TODO : content에 meetCode url로 담을지?
         PostRequest.createPost newPost = PostRequest.createPost.builder()
-                .teamCode(req.getTeamCode()).title(req.getTitle()).content(roleCode).category("Meet").build();
+                .teamCode(req.getTeamCode()).title(req.getTitle()).content(roleCode).category("ROLE").build();
         Post post = postService.createPost(user, team, newPost);
 
-        roleService.createRole(post, req,roleCode);
+        roleService.createRole(post, req, roleCode);
 
-        return ResponseEntity.ok(new JsonResponse(true, 200, "createDate", null));
+        return ResponseEntity.ok(new JsonResponse(true, 200, "createRole", team.getCode()));
     }
+
+    @GetMapping("/roulette")
+    public ResponseEntity<JsonResponse> createRoulette(@RequestBody RoleRequest.createRoulette req){
+        String userId = jwtService.resolveToken();
+
+        teamService.UserOnTeam(req.getTeamCode(),userId);
+        teamService.UserOnTeam(req.getTeamCode(),req.getUserId());
+        User user = userService.getUser(userId);
+        Team team = teamService.getTeam(req.getTeamCode());
+
+        userService.getUser(req.getUserId());
+
+        PostRequest.createPost newPost = PostRequest.createPost.builder()
+                .teamCode(req.getTeamCode()).title(req.getTitle()).content(req.getUserId()).category("ROLE_ROULETTE").build();
+        Post post = postService.createPost(user, team, newPost);
+
+        return ResponseEntity.ok(
+                new JsonResponse(true, 200, "createRoulette", team.getCode()));
+    }
+
 
     @GetMapping("/userList")
     public ResponseEntity<JsonResponse> getTeamUserList(@RequestBody RoleRequest.getUserList req){
