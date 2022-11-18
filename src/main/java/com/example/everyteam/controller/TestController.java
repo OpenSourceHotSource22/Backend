@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 import static com.example.everyteam.config.exception.ErrorResponseStatus.DATABASE_ERROR;
 
 
-@CrossOrigin(origins = "http://localhost:8080") // 추가
 @Slf4j
 @RestController
 @RequiredArgsConstructor

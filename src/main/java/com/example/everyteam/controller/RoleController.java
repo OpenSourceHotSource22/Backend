@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:8080") // 추가
 @Slf4j
 @RequestMapping("/role")
 @RequiredArgsConstructor
