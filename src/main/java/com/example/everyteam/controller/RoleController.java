@@ -52,7 +52,7 @@ public class RoleController {
         return ResponseEntity.ok(new JsonResponse(true, 200, "createRole", team.getCode()));
     }
 
-    @GetMapping("/roulette")
+    @PostMapping("/roulette")
     public ResponseEntity<JsonResponse> createRoulette(@RequestBody RoleRequest.createRoulette req){
         String userId = jwtService.resolveToken();
 
@@ -73,12 +73,12 @@ public class RoleController {
 
 
     @GetMapping("/userList")
-    public ResponseEntity<JsonResponse> getTeamUserList(@RequestBody RoleRequest.getUserList req){
+    public ResponseEntity<JsonResponse> getTeamUserList(@RequestParam String teamCode){
         String userId = jwtService.resolveToken();
 
-        teamService.UserOnTeam(req.getTeamCode(),userId);
+        teamService.UserOnTeam(teamCode,userId);
 
-        List<String> response = teamService.getUserList(req.getTeamCode());
+        List<String> response = teamService.getUserList(teamCode);
         return ResponseEntity.ok(
                 new JsonResponse(true, 200, "getTeamUserList", response));
     }
