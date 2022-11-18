@@ -5,20 +5,16 @@ import com.example.everyteam.config.JwtService;
 import com.example.everyteam.domain.Team;
 import com.example.everyteam.domain.User;
 import com.example.everyteam.dto.JsonResponse;
-import com.example.everyteam.dto.PostRequest;
-import com.example.everyteam.dto.TeamRequest;
+import com.example.everyteam.dto.post.PostRequest;
 import com.example.everyteam.service.PostService;
 import com.example.everyteam.service.TeamService;
 import com.example.everyteam.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @RestController

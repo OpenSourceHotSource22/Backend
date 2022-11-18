@@ -1,13 +1,12 @@
 package com.example.everyteam.service;
 
 import com.example.everyteam.config.exception.BadRequestException;
-import com.example.everyteam.config.exception.ErrorResponseStatus;
 import com.example.everyteam.domain.Belong;
 import com.example.everyteam.domain.Team;
 import com.example.everyteam.domain.User;
-import com.example.everyteam.dto.TeamRequest;
-import com.example.everyteam.dto.TeamResponse;
-import com.example.everyteam.dto.UserResponse;
+import com.example.everyteam.dto.team.TeamRequest;
+import com.example.everyteam.dto.team.TeamResponse;
+import com.example.everyteam.dto.user.UserResponse;
 import com.example.everyteam.repository.BelongRepository;
 import com.example.everyteam.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
@@ -61,16 +60,19 @@ public class TeamService {
 
     public TeamResponse.getUserTeamList getUserTeamList(User user) {
         List<Belong> belongs= belongRepository.findAllByUserIdx(user.getUserIdx());
-        List<Team> teamList = new ArrayList<>();
+        List<TeamResponse.teamList> teamList = new ArrayList<>();
         for(Belong b : belongs){
-            teamList.add(b.getTeam());
+            int countUser = belongRepository.countTeam(b.getTeam().getTeamIdx());
+            teamList.add(new TeamResponse.teamList(b.getTeam(),countUser));
         }
+
         UserResponse.getUser getUser = new UserResponse.getUser(user.getId());
+
         return new TeamResponse.getUserTeamList(getUser, teamList);
 
     }
 
-    private String randomCode(){
+    public String randomCode(){
         return RandomStringUtils.random(6,33,125,true,false);
     }
 
@@ -79,7 +81,6 @@ public class TeamService {
         Team team = teamRepository.findByCode(teamCode).orElseThrow(()->new BadRequestException(TEAM_CODE_ERROR));
         return team;
     }
-
 
 
 //    team에 속한 userList

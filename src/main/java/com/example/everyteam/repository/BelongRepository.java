@@ -20,4 +20,7 @@ public interface BelongRepository extends JpaRepository<Belong, Long> {
 
 
     void findByTeam(Long teamIdx);
+
+    @Query(value = "SELECT COUNT(b.team) FROM Belong b WHERE b.team.teamIdx=?1")
+    Integer countTeam(Long teamIdx);
 }

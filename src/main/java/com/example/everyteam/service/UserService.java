@@ -1,9 +1,8 @@
 package com.example.everyteam.service;
 
 import com.example.everyteam.config.exception.BadRequestException;
-import com.example.everyteam.config.exception.ErrorResponseStatus;
 import com.example.everyteam.domain.User;
-import com.example.everyteam.dto.UserRequest;
+import com.example.everyteam.dto.user.UserRequest;
 import com.example.everyteam.repository.UserRepository;
 import com.example.everyteam.utils.SHA256;
 import lombok.RequiredArgsConstructor;

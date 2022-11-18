@@ -3,8 +3,8 @@ package com.example.everyteam.service;
 import com.example.everyteam.domain.Post;
 import com.example.everyteam.domain.Team;
 import com.example.everyteam.domain.User;
-import com.example.everyteam.dto.PostRequest;
-import com.example.everyteam.dto.PostResponse;
+import com.example.everyteam.dto.post.PostRequest;
+import com.example.everyteam.dto.post.PostResponse;
 import com.example.everyteam.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ public class PostService {
     private final UserService userService;
     private final PostRepository postRepository;
 
-    public void createPost(User user, Team team, PostRequest.createPost req) {
+    public Post createPost(User user, Team team, PostRequest.createPost req) {
         Post post = Post.builder()
                 .user(user)
                 .team(team)
@@ -28,6 +28,8 @@ public class PostService {
                 .title(req.getTitle())
                 .build();
         postRepository.save(post);
+
+        return post;
     }
 
 

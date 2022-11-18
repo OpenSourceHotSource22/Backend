@@ -24,7 +24,8 @@ public enum ErrorResponseStatus {
     TEAM_CODE_ERROR(false, 4005, "잘못된 team code 입니다."),
     NOT_FOUND_USER_IN_TEAM(false, 4006, "team에 등록되지 않은 유저입니다."),
     EXIST_USER_IN_TEAM(false, 4007, "이미 team에 등록된 유저입니다."),
-
+    MEET_CODE_ERROR(false, 4008, "잘못된 meet code 입니다."),
+    MEET_DATE_ERROR(false, 4009, "잘못된 날짜를 입력했습니다."),
 
 
     //5000 : Server connection 오류

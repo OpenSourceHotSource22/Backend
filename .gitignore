@@ -18,6 +18,9 @@ build.gradle
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
+build/reports/**
+build/test-results/**
+build/reports/**
 src/main/resources/civil-treat-360317-cea5f2d8ef7c.json
 src/main/java/com/example/everyteam/utils/SHA256.java
 src/main/java/com/example/everyteam/config/JwtProperties.java
