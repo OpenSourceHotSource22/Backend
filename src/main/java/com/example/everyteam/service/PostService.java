@@ -54,8 +54,8 @@ public class PostService {
             if(post.getCategory().equals("ROLE")){
                 System.out.println(post.getContent());
                 List<Role> roleList = roleService.getPostRoleList(post.getContent());
-                System.out.println(roleList);
-//                response.add(new PostResponse.postRoleRes(post,roleList));
+                System.out.println("roleList"+roleList);
+                response.add(new PostResponse.postRoleRes(post,roleList));
             }else{
                 response.add(new PostResponse.postRes(post));
             }

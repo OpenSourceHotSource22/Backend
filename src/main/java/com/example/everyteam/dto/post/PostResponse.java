@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,7 +49,7 @@ public class PostResponse {
     public static class postRoleRes {
         private String userId;
         private String title;
-        private Map<String, String> roles;
+        private Map<String, String> roles = new HashMap<>();
         private String createdAt;
         private String category;
         @Builder
@@ -56,6 +57,7 @@ public class PostResponse {
             this.userId = post.getUser().getId();
             this.title = post.getTitle();
             for(Role role : roleList){
+                System.out.println("role : "+role.getRole()+", user : "+role.getUser().getId());
                 this.roles.put(role.getUser().getId(), role.getRole());
             }
             this.createdAt = post.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));

@@ -38,8 +38,10 @@ public class RoleService {
     public List<Role> getPostRoleList(String roleCode) {
         try{
             System.out.println("roleCode:"+roleCode);
-//            List<Role> roleList = roleRepository.findAllByCode(roleCode);
-//            System.out.println("roleList"+roleList);
+            List<Role> roleList = roleRepository.findAllByCode(roleCode);
+            return roleList;
+        }catch(NullPointerException e){
+            System.out.println(e.getMessage());
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
