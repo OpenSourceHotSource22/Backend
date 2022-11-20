@@ -25,6 +25,7 @@ src/main/resources/civil-treat-360317-cea5f2d8ef7c.json
 src/main/java/com/example/everyteam/utils/SHA256.java
 src/main/java/com/example/everyteam/config/JwtProperties.java
 src/main/java/com/example/everyteam/service/ImageService.java
+src/main/java/com/example/everyteam/config/Secret.java
 src/main/java/com/example/everyteam/utils/FileUtils.java
 ### IntelliJ IDEA ###
 **/JwtProperties.java
