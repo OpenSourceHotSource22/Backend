@@ -30,7 +30,19 @@ public class RoleService {
         }
     }
 
+    ///////TODO : test Role List
     public List<Role> getAllRoleList() {
         return roleRepository.findAll();
+    }
+
+    public List<Role> getPostRoleList(String roleCode) {
+        try{
+            System.out.println("roleCode:"+roleCode);
+//            List<Role> roleList = roleRepository.findAllByCode(roleCode);
+//            System.out.println("roleList"+roleList);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 }

@@ -31,7 +31,7 @@ public class TeamContoller {
 
 
     @PostMapping("/team/create")
-    public ResponseEntity<JsonResponse> createTeam(@RequestPart("team") TeamRequest.createTeam req, @RequestPart("image")MultipartFile file){
+    public ResponseEntity<JsonResponse> createTeam(@RequestPart("team") TeamRequest.createTeam req, @RequestPart("image") MultipartFile file){
         String userId = jwtService.resolveToken();
         User user = userService.getUser(userId);
 
@@ -66,8 +66,8 @@ public class TeamContoller {
     //userList, team info, postList
     //TODO : 생성일 mapping 다르게 하기
     //meet, role response 다르게 보내기
-    @GetMapping("/team/date")
-    public ResponseEntity<JsonResponse> getTeamPostByDate(@RequestParam String teamCode){
+    @GetMapping("/team/{teamCode}/date")
+    public ResponseEntity<JsonResponse> getTeamPostByDate(@PathVariable String teamCode){
         //user validation
         String userId = jwtService.resolveToken();
 
@@ -76,11 +76,10 @@ public class TeamContoller {
         Team team = teamService.getTeam(teamCode);
 
         //postlist
-        List<PostResponse.postList> postList = postService.getPostList(team);
+        List<Object> postList = postService.getPostListByDate(team);
 
         //userList
         List<String> teamUserList = teamService.getUserList(team.getCode());
-
 
         return ResponseEntity.ok(
                 new JsonResponse(true, 200, "getTeamPostByDate", new TeamResponse.getTeamPostList(team, teamUserList, postList)));
@@ -97,7 +96,7 @@ public class TeamContoller {
         Team team = teamService.getTeam(teamCode);
 
         //postlist
-        List<PostResponse.postList> postList = postService.getPostList(team);
+        List<PostResponse.postRes> postList = postService.getPostList(team);
 
         //userList
         List<String> teamUserList = teamService.getUserList(team.getCode());

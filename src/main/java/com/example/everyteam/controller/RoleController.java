@@ -41,9 +41,10 @@ public class RoleController {
 
         String roleCode = teamService.randomCode();
 
-        PostRequest.createPost newPost = PostRequest.createPost.builder()
-                .teamCode(req.getTeamCode()).title(req.getTitle()).content(roleCode).category("ROLE").build();
-        Post post = postService.createPost(user, team, newPost);
+        Post postForm = Post.builder().user(user).team(team).title(req.getTitle())
+                .content(roleCode).category("ROLE").build();
+
+        Post post = postService.createPost(postForm);
 
         roleService.createRole(post, req, roleCode);
 
@@ -61,9 +62,10 @@ public class RoleController {
 
         userService.getUser(req.getUserId());
 
-        PostRequest.createPost newPost = PostRequest.createPost.builder()
-                .teamCode(req.getTeamCode()).title(req.getTitle()).content(req.getUserId()).category("ROLE_ROULETTE").build();
-        Post post = postService.createPost(user, team, newPost);
+        Post postForm = Post.builder().user(user).team(team).title(req.getTitle())
+                .content(req.getUserId()).category("ROLE_ROULETTE").build();
+
+        postService.createPost(postForm);
 
         return ResponseEntity.ok(
                 new JsonResponse(true, 200, "createRoulette", team.getCode()));

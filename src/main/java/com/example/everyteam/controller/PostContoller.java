@@ -2,6 +2,7 @@ package com.example.everyteam.controller;
 
 
 import com.example.everyteam.config.JwtService;
+import com.example.everyteam.domain.Post;
 import com.example.everyteam.domain.Team;
 import com.example.everyteam.domain.User;
 import com.example.everyteam.dto.JsonResponse;
@@ -33,7 +34,13 @@ public class PostContoller {
         String userId = jwtService.resolveToken();
         User user = userService.getUser(userId);
         Team team = teamService.getTeam(req.getTeamCode());
-        postService.createPost(user, team, req);
+
+
+
+
+        Post post = Post.builder().user(user).team(team).category("POST")
+                .content(req.getContent()).title(req.getTitle()).build();
+        postService.createPost(post);
 
         return ResponseEntity.ok(new JsonResponse(true, 200, "createTeam", team.getCode()));
     }

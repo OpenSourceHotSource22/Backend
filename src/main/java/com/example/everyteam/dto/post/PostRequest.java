@@ -19,14 +19,12 @@ public class PostRequest {
         private String teamCode;
         private String title;
         private String content;
-        private String category;
 
         @Builder
-        public createPost(String teamCode, String title, String content, String category) {
+        public createPost(String teamCode, String title, String content) {
             this.teamCode = teamCode;
             this.title = title;
             this.content = content;
-            this.category = category;
         }
     }
 
