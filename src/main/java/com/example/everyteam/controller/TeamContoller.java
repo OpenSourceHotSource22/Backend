@@ -86,8 +86,8 @@ public class TeamContoller {
     }
 
 
-    @GetMapping("/team/category")
-    public ResponseEntity<JsonResponse> getTeamPostByCategory(@RequestParam String teamCode){
+    @GetMapping("/team/{teamCode}/category")
+    public ResponseEntity<JsonResponse> getTeamPostByCategory(@PathVariable String teamCode){
         //user validation
         String userId = jwtService.resolveToken();
 
@@ -96,7 +96,7 @@ public class TeamContoller {
         Team team = teamService.getTeam(teamCode);
 
         //postlist
-        List<PostResponse.postRes> postList = postService.getPostList(team);
+        PostResponse.resCategory postList = postService.getPostListByCategory(team);
 
         //userList
         List<String> teamUserList = teamService.getUserList(team.getCode());

@@ -39,7 +39,7 @@ public class MeetRequest {
     }
 
     @Data
-    public class updatePostMeet {
+    public static class updatePostMeet {
         private String teamCode;
         private String meetCode;
         private String content;

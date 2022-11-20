@@ -25,6 +25,7 @@ public class PostService {
     private final UserService userService;
     private final PostRepository postRepository;
     private final RoleService roleService;
+    private final MeetService meetService;
 
     public Post createPost(Post post) {
         postRepository.save(post);
@@ -52,9 +53,7 @@ public class PostService {
 
         for(Post post : postList){
             if(post.getCategory().equals("ROLE")){
-                System.out.println(post.getContent());
                 List<Role> roleList = roleService.getPostRoleList(post.getContent());
-                System.out.println("roleList"+roleList);
                 response.add(new PostResponse.postRoleRes(post,roleList));
             }else{
                 response.add(new PostResponse.postRes(post));
@@ -63,6 +62,38 @@ public class PostService {
 
         return response;
     }
+
+    public PostResponse.resCategory getPostListByCategory(Team team) {
+        List<Post> postList = postRepository.findAllByTeam(team.getTeamIdx());
+        List<PostResponse.postRes> postRes = new ArrayList<>();
+        List<PostResponse.postRes> meetRes = new ArrayList<>();
+        List<Object> roleRes = new ArrayList<>();
+
+        for(Post post : postList){
+
+            switch (post.getCategory()){
+                case "ROLE" :
+                    List<Role> roleList = roleService.getPostRoleList(post.getContent());
+                    roleRes.add(new PostResponse.postRoleRes(post,roleList));
+                    break;
+                case "ROLE_ROULETTE" :
+                    roleRes.add(new PostResponse.postRes(post));
+                    break;
+                case "MEET":
+                    meetRes.add(new PostResponse.postRes(post));
+                    break;
+                case "POST":
+                    postRes.add(new PostResponse.postRes(post));
+                    break;
+            }
+        }
+        PostResponse.resCategory response = new PostResponse.resCategory(postRes,meetRes,roleRes);
+
+        return response;
+    }
+
+
+
 
     ///////TODO : test Post List
     public List<Post> getAllPostList() {
