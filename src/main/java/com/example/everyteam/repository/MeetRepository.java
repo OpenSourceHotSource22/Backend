@@ -19,4 +19,6 @@ public interface MeetRepository extends JpaRepository<Meet, Long> {
     List<Meet> findAllByCode(String meetCode);
 
     List<Meet> findMeetByCode(String meetCode);
+
+
 }

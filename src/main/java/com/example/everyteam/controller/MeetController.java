@@ -43,9 +43,9 @@ public class MeetController {
         String meetCode = teamService.randomCode();
 
         //TODO : content에 meetCode url로 담을지?
-        PostRequest.createPost newPost = PostRequest.createPost.builder()
-                .teamCode(req.getTeamCode()).title(req.getTitle()).content(meetCode).category("MEET").build();
-        Post post = postService.createPost(user, team, newPost);
+
+        Post postForm = Post.builder().user(user).team(team).title(req.getTitle()).content(meetCode).category("MEET").build();
+        Post post = postService.createPost(postForm);
 
         meetService.createDate(post, req, meetCode);
 
@@ -76,16 +76,35 @@ public class MeetController {
 
     }
 
-    @GetMapping ("/getResultTime")
-    public ResponseEntity<JsonResponse> getResultTime(@RequestBody MeetRequest.updateTime req){
+    @PostMapping ("/getResultTime")
+    public ResponseEntity<JsonResponse> getResultTime(@RequestBody MeetRequest.getResultTime req){
         String userId = jwtService.resolveToken();
         User user = userService.getUser(userId);
 
-        String meetCode = meetService.getResultTime(req,user);
+        List<MeetResponse.getResultTime> meetList = meetService.getResultTime(req,user);
+        Post post = postService.getPostByMeetCode(req.getMeetCode());
 
-        return ResponseEntity.ok(new JsonResponse(true, 200, "getResultTime", meetCode));
+        MeetResponse.ResultRes response = new MeetResponse.ResultRes(post, meetList);
+
+        return ResponseEntity.ok(new JsonResponse(true, 200, "getResultTime", response));
+    }
+
+    @PostMapping ("/updatePostMeet")
+    public ResponseEntity<JsonResponse> updatePostMeet(@RequestBody MeetRequest.updatePostMeet req){
+        String userId = jwtService.resolveToken();
+        User user = userService.getUser(userId);
+        teamService.UserOnTeam(req.getTeamCode(), userId);
+
+        meetService.isUserinMeet(req.getMeetCode(), userId);
+
+        Post post = postService.getPostByMeetCode(req.getMeetCode());
+        post.setContent("result/"+req.getContent());
+        postService.updatePostByMeet(post);
+
+        return ResponseEntity.ok(new JsonResponse(true, 200, "updatePostMeet", req.getTeamCode()));
 
     }
+
 
     @GetMapping("/test/getMeetList")
     public Object getMeetList(){
@@ -96,4 +115,5 @@ public class MeetController {
     public Object getMeetTimeList(){
         return meetService.getAllMeetTimeList();
     }
+
 }

@@ -30,4 +30,18 @@ public class MeetRequest {
         private String teamCode;
         private String meetCode;
     }
+
+
+    @Data
+    public static class getResultTime {
+        private String teamCode;
+        private String meetCode;
+    }
+
+    @Data
+    public class updatePostMeet {
+        private String teamCode;
+        private String meetCode;
+        private String content;
+    }
 }

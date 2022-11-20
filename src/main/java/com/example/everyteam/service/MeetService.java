@@ -1,14 +1,12 @@
 package com.example.everyteam.service;
 
 import com.example.everyteam.config.exception.BadRequestException;
-import com.example.everyteam.config.exception.ErrorResponseStatus;
 import com.example.everyteam.domain.Meet;
 import com.example.everyteam.domain.MeetTime;
 import com.example.everyteam.domain.Post;
 import com.example.everyteam.domain.User;
 import com.example.everyteam.dto.meet.MeetRequest;
 import com.example.everyteam.dto.meet.MeetResponse;
-import com.example.everyteam.dto.post.PostRequest;
 import com.example.everyteam.repository.MeetRepository;
 import com.example.everyteam.repository.MeetTimeRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -96,16 +92,45 @@ public class MeetService {
         }
     }
 
-    public String getResultTime(MeetRequest.updateTime req, User user) {
-        return null;
+    //TODO : 유저 [date : 시간]
+    public List<MeetResponse.getResultTime> getResultTime(MeetRequest.getResultTime req, User user) {
+        validMeetCode(req.getMeetCode());
+
+        List<Meet> meetList = meetRepository.findAllByCode(req.getMeetCode());
+
+        List<MeetResponse.getResultTime> response = new ArrayList<>();
+
+        List<String> meetUserList = meetTimeRepository.findAllByUserCode(req.getMeetCode());
+
+        List<String> existUser = new ArrayList<>();
+
+        for(int i=0;i<meetUserList.size();i++){
+            String userId = meetUserList.get(i);
+            if(!existUser.contains(userId)) existUser.add(userId);
+        }
+
+        for(String userId : existUser){
+            List<MeetTime> time = meetTimeRepository.findAllByUser(userId);
+            response.add(new MeetResponse.getResultTime(meetList.get(0), time));
+        }
+
+        return response;
     }
 
 
+
+    ///////TODO : test Meet List
     public List<Meet> getAllMeetList() {
         return meetRepository.findAll();
     }
 
     public List<MeetTime> getAllMeetTimeList() {
         return meetTimeRepository.findAll();
+    }
+
+    public void isUserinMeet(String meetCode, String userId) {
+        validMeetCode(meetCode);
+        int countUserMeet = meetTimeRepository.countByCodeandUser(meetCode, userId);
+        if(countUserMeet<1)throw new BadRequestException(MEET_USER_NOT_FOUND);
     }
 }
