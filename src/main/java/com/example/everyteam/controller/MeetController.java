@@ -99,7 +99,7 @@ public class MeetController {
 
         Post post = postService.getPostByMeetCode(req.getMeetCode());
         post.setContent("result/"+req.getContent());
-        postService.updatePostByMeet(post);
+        postService.updatePostByMeet(post, user);
 
         return ResponseEntity.ok(new JsonResponse(true, 200, "updatePostMeet", req.getTeamCode()));
 

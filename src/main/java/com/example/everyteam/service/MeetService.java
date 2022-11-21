@@ -46,7 +46,7 @@ public class MeetService {
         List<Object> response = new ArrayList<>();
         for(Meet meet : dates){
             try{
-                MeetTime time = meetTimeRepository.findByMeetandUser(meet.getDate(),userId);
+                MeetTime time = meetTimeRepository.findByMeetandUser(meet.getDate(),meet.getCode(),userId);
                 response.add(new MeetResponse.getMeetDateandTime(meet,time));
             }catch (NullPointerException e){
                 response.add(new MeetResponse.getMeetDate(meet));

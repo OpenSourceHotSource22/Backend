@@ -105,7 +105,8 @@ public class PostService {
         return postRepository.findByContent(meetCode).orElseThrow(()->new BadRequestException(MEET_POST_ERROR));
     }
 
-    public void updatePostByMeet(Post post) {
+    public void updatePostByMeet(Post post, User user) {
+        if(!post.getUser().getId().equals(user.getId())) throw new BadRequestException(MEET_INVALID_USER);
         postRepository.save(post);
     }
 }

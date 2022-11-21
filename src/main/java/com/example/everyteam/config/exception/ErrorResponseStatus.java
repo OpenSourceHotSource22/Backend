@@ -26,9 +26,9 @@ public enum ErrorResponseStatus {
     EXIST_USER_IN_TEAM(false, 4007, "이미 team에 등록된 유저입니다."),
     MEET_CODE_ERROR(false, 4008, "잘못된 meet code 입니다."),
     MEET_DATE_ERROR(false, 4009, "잘못된 날짜를 입력했습니다."),
-    MEET_POST_ERROR(false, 4009, "Post에서 찾을 수 없는 MeetCode입니다."),
-    MEET_USER_NOT_FOUND(false, 4009, "Meet에 등록되지 않은 유저입니다."),
-
+    MEET_POST_ERROR(false, 4010, "Post에서 찾을 수 없는 MeetCode입니다."),
+    MEET_USER_NOT_FOUND(false, 4011, "Meet에 등록되지 않은 유저입니다."),
+    MEET_INVALID_USER(false, 4012, "Meet을 생성한 사람이 결과를 저장할 수 있습니다."),
     //5000 : Server connection 오류
     SERVER_ERROR(false, 5000, "서버와의 연결에 실패하였습니다."),
 
