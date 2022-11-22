@@ -54,6 +54,11 @@ public class MeetService {
         }
         return response;
     }
+    public List<LocalDate> getAllMeetDate(String meetCode){
+        List<LocalDate> meetDateList = meetRepository.findAllDateByCode(meetCode);
+        return meetDateList;
+    }
+
 
     public void validMeetCode(String meetCode){
         int countCode = meetRepository.countByCode(meetCode);
@@ -95,24 +100,28 @@ public class MeetService {
     //TODO : 유저 [date : 시간]
     public List<MeetResponse.getResultTime> getResultTime(MeetRequest.getResultTime req, User user) {
         validMeetCode(req.getMeetCode());
+        List<MeetResponse.getResultTime> response = new ArrayList<>();
 
         List<Meet> meetList = meetRepository.findAllByCode(req.getMeetCode());
 
-        List<MeetResponse.getResultTime> response = new ArrayList<>();
 
         List<String> meetUserList = meetTimeRepository.findAllByUserCode(req.getMeetCode());
 
         List<String> existUser = new ArrayList<>();
 
+
+        //중복 유저 거르기
         for(int i=0;i<meetUserList.size();i++){
             String userId = meetUserList.get(i);
             if(!existUser.contains(userId)) existUser.add(userId);
         }
 
+        //
         for(String userId : existUser){
-            List<MeetTime> time = meetTimeRepository.findAllByUser(userId);
+            List<MeetTime> time = meetTimeRepository.findAllByUserandCode(userId, req.getMeetCode());
             response.add(new MeetResponse.getResultTime(meetList.get(0), time));
         }
+
 
         return response;
     }

@@ -4,6 +4,7 @@ import com.example.everyteam.domain.Meet;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,5 +21,6 @@ public interface MeetRepository extends JpaRepository<Meet, Long> {
 
     List<Meet> findMeetByCode(String meetCode);
 
-
+    @Query("SELECT m.date FROM Meet m where m.code=?1")
+    List<LocalDate> findAllDateByCode(String meetCode);
 }

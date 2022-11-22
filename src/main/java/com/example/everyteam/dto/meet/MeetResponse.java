@@ -87,11 +87,13 @@ public class MeetResponse {
     @AllArgsConstructor
     public static class ResultRes {
         private Object post;
-        private List<getResultTime> meetList;
+        private List<LocalDate> meetDate;
+        private List<getResultTime> meetTime;
 
-        public ResultRes(Post post, List<getResultTime> meetList) {
+        public ResultRes(Post post, List<getResultTime> meetTime, List<LocalDate> meetDate) {
             this.post = new PostResponse.postRes(post);
-            this.meetList = meetList;
+            this.meetDate = meetDate;
+            this.meetTime = meetTime;
         }
     }
 }

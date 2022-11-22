@@ -17,8 +17,8 @@ public interface MeetTimeRepository extends JpaRepository<MeetTime, Long> {
     MeetTime findByMeetandUser(LocalDate date, String meetCode, String userId);
 
 
-    @Query("SELECT m FROM MeetTime m WHERE m.user.id=?1")
-    List<MeetTime> findAllByUser(String id);
+    @Query("SELECT m FROM MeetTime m WHERE m.user.id=?1 and m.meet.code=?2")
+    List<MeetTime> findAllByUserandCode(String id, String meetCode);
 
     @Query("SELECT m FROM MeetTime m WHERE m.meet.code=?1")
     List<MeetTime> findAllByCode(String meetCode);

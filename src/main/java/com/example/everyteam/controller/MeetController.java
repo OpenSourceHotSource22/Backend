@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j
@@ -83,8 +84,8 @@ public class MeetController {
 
         List<MeetResponse.getResultTime> meetList = meetService.getResultTime(req,user);
         Post post = postService.getPostByMeetCode(req.getMeetCode());
-
-        MeetResponse.ResultRes response = new MeetResponse.ResultRes(post, meetList);
+        List<LocalDate> meetDate = meetService.getAllMeetDate(req.getMeetCode());
+        MeetResponse.ResultRes response = new MeetResponse.ResultRes(post, meetList, meetDate);
 
         return ResponseEntity.ok(new JsonResponse(true, 200, "getResultTime", response));
     }
