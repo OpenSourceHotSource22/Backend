@@ -101,8 +101,11 @@ public class TeamService {
 
     public void updateTopImage(Team team, MultipartFile file) {
         String imgUrl=null;
-        if(file.getSize()>0)
+        if(file.getSize()>0){
             imgUrl = imageService.uploadToStorage("team","everyTeam_topImg_"+team.getCode(),file);
+            team.setTopImgUrl(imgUrl);
+            teamRepository.save(team);
+        }
         else throw new BadRequestException(FILE_SAVE_ERROR);
     }
 
