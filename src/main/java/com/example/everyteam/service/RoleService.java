@@ -23,9 +23,9 @@ public class RoleService {
         for(int i=0;i<req.getRole().size();i++){
             String getRole = String.valueOf(req.getRole().get(i).get("role"));
             String getUser = String.valueOf(req.getRole().get(i).get("user"));
-            teamService.UserOnTeam(req.getTeamCode(),getUser);
-            User reqUser = userService.getUser(getUser);
-            Role role = Role.builder().user(reqUser).post(post).role(getRole).code(code).build();
+//            teamService.UserOnTeam(req.getTeamCode(),getUser);
+//            User reqUser = userService.getUser(getUser);
+            Role role = Role.builder().user(getUser).post(post).role(getRole).code(code).build();
             roleRepository.save(role);
         }
     }

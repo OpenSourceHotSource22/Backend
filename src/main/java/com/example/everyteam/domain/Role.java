@@ -25,17 +25,18 @@ public class Role extends BaseTime{
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Post post;
 
-    @ManyToOne
-    @JoinColumn(name = "user")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private User user;
+//    @ManyToOne
+//    @JoinColumn(name = "user")
+//    @OnDelete(action = OnDeleteAction.CASCADE)
+//    private User user;
+    private String user;
 
     private String role;
 
     private String code;
 
     @Builder
-    public Role(Post post, User user, String role,String code) {
+    public Role(Post post, String user, String role,String code) {
         this.post = post;
         this.user = user;
         this.role = role;

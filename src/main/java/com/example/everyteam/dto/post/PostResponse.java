@@ -59,7 +59,7 @@ public class PostResponse {
             this.userId = post.getUser().getId();
             this.title = post.getTitle();
             for(Role role : roleList){
-                this.roles.put(role.getUser().getId(), role.getRole());
+                this.roles.put(role.getUser(), role.getRole());
             }
             this.createdAt = post.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             this.category = post.getCategory();
