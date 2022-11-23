@@ -45,11 +45,12 @@ public class MeetController {
         String meetCode = teamService.randomCode();
 
         //TODO : content에 meetCode url로 담을지?
-
         Post postForm = Post.builder().user(user).team(team).title(req.getTitle()).content(meetCode).category("MEET").build();
         Post post = postService.createPost(postForm);
 
         meetService.createDate(post, req, meetCode);
+//        MeetRequest.updateTime time = new MeetRequest.updateTime(req.getTeamCode(), meetCode, );
+//        meetService.updateTime(req,user);
 
         return ResponseEntity.ok(new JsonResponse(true, 200, "createDate", new MeetResponse.createDate(team.getCode(), meetCode)));
     }
