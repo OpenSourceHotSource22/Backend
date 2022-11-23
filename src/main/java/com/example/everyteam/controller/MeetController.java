@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -81,8 +82,12 @@ public class MeetController {
     public ResponseEntity<JsonResponse> getResultTime(@RequestBody MeetRequest.getResultTime req){
         String userId = jwtService.resolveToken();
         User user = userService.getUser(userId);
-
-        List<MeetResponse.getResultTime> meetList = meetService.getResultTime(req,user);
+        List<MeetResponse.getResultTime> meetList = new ArrayList<>();
+        try{
+            meetList = meetService.getResultTime(req,user);
+        }catch (NullPointerException e){
+            System.out.println("유저가 등록한 meet이 null이래용~~");
+        }
         Post post = postService.getPostByMeetCode(req.getMeetCode());
         List<LocalDate> meetDate = meetService.getAllMeetDate(req.getMeetCode());
         MeetResponse.ResultRes response = new MeetResponse.ResultRes(post, meetList, meetDate);
