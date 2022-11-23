@@ -26,7 +26,7 @@ import static com.example.everyteam.config.exception.ErrorResponseStatus.*;
 public class TeamService {
     private final TeamRepository teamRepository;
     private final BelongRepository belongRepository;
-    private final ImageService imageService;
+    private final FirebaseService firebaseService;
 
 
     @Transactional
@@ -37,7 +37,7 @@ public class TeamService {
         String imgUrl = null;
 
         if(file.getSize()>0){
-            imgUrl = imageService.uploadToStorage("team","everyTeam_"+newCode,file);
+            imgUrl = firebaseService.uploadFiles("everyTeam_"+newCode,file);
         }
 
         Team team = Team.builder().code(newCode).name(req.getName()).description(req.getDescription()).imgUrl(imgUrl).build();
@@ -102,7 +102,7 @@ public class TeamService {
     public void updateTopImage(Team team, MultipartFile file) {
         String imgUrl=null;
         if(file.getSize()>0){
-            imgUrl = imageService.uploadToStorage("team","everyTeam_topImg_"+team.getCode(),file);
+            imgUrl = firebaseService.uploadFiles("everyTeam_topImg_"+team.getCode(),file);
             team.setTopImgUrl(imgUrl);
             teamRepository.save(team);
         }

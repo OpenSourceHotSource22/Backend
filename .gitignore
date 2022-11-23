@@ -27,6 +27,8 @@ src/main/java/com/example/everyteam/config/JwtProperties.java
 src/main/java/com/example/everyteam/service/ImageService.java
 src/main/java/com/example/everyteam/config/Secret.java
 src/main/java/com/example/everyteam/utils/FileUtils.java
+src/main/resources/serviceAccountKey.json
+build/resources/**
 ### IntelliJ IDEA ###
 **/JwtProperties.java
 *.log
