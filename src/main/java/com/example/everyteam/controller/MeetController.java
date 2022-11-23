@@ -82,12 +82,9 @@ public class MeetController {
     public ResponseEntity<JsonResponse> getResultTime(@RequestBody MeetRequest.getResultTime req){
         String userId = jwtService.resolveToken();
         User user = userService.getUser(userId);
-        List<MeetResponse.getResultTime> meetList = new ArrayList<>();
-        try{
-            meetList = meetService.getResultTime(req,user);
-        }catch (NullPointerException e){
-            System.out.println("유저가 등록한 meet이 null이래용~~");
-        }
+
+        List<MeetResponse.getResultTime> meetList = meetService.getResultTime(req,user);
+
         Post post = postService.getPostByMeetCode(req.getMeetCode());
         List<LocalDate> meetDate = meetService.getAllMeetDate(req.getMeetCode());
         MeetResponse.ResultRes response = new MeetResponse.ResultRes(post, meetList, meetDate);
