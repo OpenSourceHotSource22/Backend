@@ -14,6 +14,8 @@ EC2 배포 및 ssl적용 : 2022.11.03 ~ 2022.11.24
 ![](https://velog.velcdn.com/images/okbear3/post/b2e19e91-a224-4df9-b294-9451a7a5f2b5/image.png)
 
 
+기술스택
+![img.png](img.png)
 
 커밋 컨벤션
 ```
