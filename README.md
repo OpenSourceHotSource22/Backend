@@ -33,7 +33,5 @@ API명세서
 ![](https://velog.velcdn.com/images/okbear3/post/8ec0a888-dad2-425c-8653-8739cc8d0a0d/image.png)
 
 ERD
-![ERD
-](https://velog.velcdn.com/images/okbear3/post/3b82ad66-3d92-40c3-9bdd-ab05753c4c91/image.png)
-
+![img_1.png](img_1.png)
 [API sheet & develop note](https://www.notion.so/6f15fac996354338b6e5f3e30cde582f)
