@@ -66,7 +66,7 @@ public class TeamService {
             teamList.add(new TeamResponse.teamList(b.getTeam(),countUser));
         }
 
-        UserResponse.getUser getUser = new UserResponse.getUser(user.getId());
+        UserResponse.getUser getUser = new UserResponse.getUser(user);
 
         return new TeamResponse.getUserTeamList(getUser, teamList);
 

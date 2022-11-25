@@ -23,9 +23,17 @@ public class User extends BaseTime{
     @Column(nullable = false)
     private String pwd;
 
+    @Column(nullable = false)
+    private String color;
+
     @Builder
     public User(String id, String pwd) {
         this.id = id;
         this.pwd = pwd;
+        this.color = "basic";
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }

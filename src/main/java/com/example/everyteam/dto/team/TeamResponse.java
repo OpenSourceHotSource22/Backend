@@ -1,6 +1,7 @@
 package com.example.everyteam.dto.team;
 
 import com.example.everyteam.domain.Team;
+import com.example.everyteam.domain.User;
 import com.example.everyteam.dto.user.UserResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,10 +27,18 @@ public class TeamResponse {
     @AllArgsConstructor
     @Data
     public static class getTeamPostList {
+        private String color;
         private Team team;
         private Object userList;
         private Object postList;
 
+
+        public getTeamPostList(Team team, List<String> teamUserList, Object postList, User user) {
+            this.team=team;
+            this.postList = postList;
+            this.userList = teamUserList;
+            this.color = user.getColor();
+        }
     }
 
     @NoArgsConstructor

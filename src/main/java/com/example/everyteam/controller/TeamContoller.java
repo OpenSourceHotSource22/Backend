@@ -70,6 +70,7 @@ public class TeamContoller {
     public ResponseEntity<JsonResponse> getTeamPostByDate(@PathVariable String teamCode){
         //user validation
         String userId = jwtService.resolveToken();
+        User user = userService.getUser(userId);
 
         //team info
         teamService.UserOnTeam(teamCode,userId);
@@ -82,7 +83,7 @@ public class TeamContoller {
         List<String> teamUserList = teamService.getUserList(team.getCode());
 
         return ResponseEntity.ok(
-                new JsonResponse(true, 200, "getTeamPostByDate", new TeamResponse.getTeamPostList(team, teamUserList, postList)));
+                new JsonResponse(true, 200, "getTeamPostByDate", new TeamResponse.getTeamPostList(team, teamUserList, postList, user)));
     }
 
 
@@ -90,6 +91,7 @@ public class TeamContoller {
     public ResponseEntity<JsonResponse> getTeamPostByCategory(@PathVariable String teamCode){
         //user validation
         String userId = jwtService.resolveToken();
+        User user = userService.getUser(userId);
 
         //team info
         teamService.UserOnTeam(teamCode,userId);
@@ -103,7 +105,7 @@ public class TeamContoller {
 
 
         return ResponseEntity.ok(
-                new JsonResponse(true, 200, "getTeamPostListByCategory", new TeamResponse.getTeamPostList(team, teamUserList, postList)));
+                new JsonResponse(true, 200, "getTeamPostListByCategory", new TeamResponse.getTeamPostList(team, teamUserList, postList, user)));
     }
 
 

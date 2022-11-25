@@ -59,4 +59,11 @@ public class UserController {
         return userService.getAllUserList();
     }
 
+    @PutMapping("/user/color/{color}")
+    public ResponseEntity<JsonResponse> updateUserColor(@PathVariable String color){
+        String userId = jwtService.resolveToken();
+        User user = userService.getUser(userId);
+        userService.updateColor(user, color);
+        return ResponseEntity.ok(new JsonResponse(true, 200, "updateUserColor", null));
+    }
 }

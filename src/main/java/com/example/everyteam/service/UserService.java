@@ -42,4 +42,17 @@ public class UserService {
     public List<User> getAllUserList() {
         return userRepository.findAll();
     }
+
+    public void updateColor(User user, String color) {
+        String[] colorList = {"basic", "purple", "earth", "indigo"};
+        for(String c : colorList){
+            if(c.equals(color)){
+                user.setColor(color);
+                userRepository.save(user);
+                return;
+            }
+        }
+        throw new BadRequestException(INVALID_COLOR);
+
+    }
 }
