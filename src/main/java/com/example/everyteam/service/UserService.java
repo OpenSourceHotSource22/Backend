@@ -55,4 +55,9 @@ public class UserService {
         throw new BadRequestException(INVALID_COLOR);
 
     }
+
+    public void checkEmail(String email) {
+        if(userRepository.countByUserEmail(email)>0)
+            throw new BadRequestException(EXIST_EMAIL);
+    }
 }

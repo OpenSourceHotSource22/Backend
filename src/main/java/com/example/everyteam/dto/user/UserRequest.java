@@ -12,6 +12,8 @@ public class UserRequest {
     public static class join {
         private String id;
         private String pwd;
+        private String email;
+        private String name;
     }
 
     @NoArgsConstructor

@@ -23,6 +23,12 @@ public class User extends BaseTime{
     @Column(nullable = false)
     private String pwd;
 
+    private String email;
+
+    private String img;
+
+
+
     @Column(nullable = false)
     private String color;
 

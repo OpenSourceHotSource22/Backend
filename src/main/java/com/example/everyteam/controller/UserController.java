@@ -22,6 +22,13 @@ public class UserController {
     private final JwtService jwtService;
 
 
+    @PostMapping("/checkEmail")
+    public ResponseEntity<JsonResponse> checkEmail(@RequestParam String email){
+        userService.checkEmail(email);
+        return ResponseEntity.ok(new JsonResponse(true, 200, "checkEmail", null));
+    }
+
+    //TODO : 유저 회원가입 -> id, 이름, 이미지, email, pwd
     @PostMapping("/join")
     public ResponseEntity<JsonResponse> joinUser(@RequestBody UserRequest.join req){
         userService.joinUser(req);
